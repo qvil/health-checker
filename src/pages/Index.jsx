@@ -6,7 +6,10 @@ const Index = ({ history }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    alert(input);
+    if (input === "") {
+      return;
+    }
+    alert(`Hi: ${input}`);
     history.push("/list");
   };
 
@@ -20,7 +23,9 @@ const Index = ({ history }) => {
           value={input}
           onChange={e => setInput(e.target.value)}
         />
-        <button>확인</button>
+        <button type="submit" onClick={handleSubmit}>
+          확인
+        </button>
       </form>
     </div>
   );

@@ -8,16 +8,22 @@ const ServerList = ({ url }) => {
     data: null
   });
 
-  const checkHealth = url => () => {
+  const checkHealth = () => () => {
     // Hooks
     // fetch();
 
+    setState({ ...state, loading: true });
     // API
+    // axios(url)
     axios("http://ddragon.leagueoflegends.com/api/versions.json")
       .then(res => {
         console.log(res);
-        const data = res.data;
-        setState({ ...state, loading: false, data });
+        if (res.status === 200) {
+          const data = res.data;
+          setState({ ...state, loading: false, data });
+        } else {
+          throw new Error();
+        }
       })
       .catch(error => setState({ ...state, loading: false, error }));
   };
