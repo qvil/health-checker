@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 const Index = ({ history }) => {
   const [input, setInput] = useState("");
@@ -23,9 +24,14 @@ const Index = ({ history }) => {
           value={input}
           onChange={e => setInput(e.target.value)}
         />
-        <button type="submit" onClick={handleSubmit}>
+        <Button
+          type="submit"
+          onClick={handleSubmit}
+          variant="contained"
+          color="primary"
+        >
           확인
-        </button>
+        </Button>
       </form>
     </div>
   );

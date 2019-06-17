@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import styled from "styled-components";
+import Button from "@material-ui/core/Button";
+
+const List = styled.li`
+  display: flex;
+  justify-content: space-between;
+  margin: 8px;
+`;
 
 const ServerList = ({ url }) => {
   const [state, setState] = useState({
@@ -29,13 +37,15 @@ const ServerList = ({ url }) => {
   };
   const { loading, error, data } = state;
   return (
-    <li>
+    <List>
       <span>{url}</span>
-      <button onClick={checkHealth(url)}>Check</button>
+      <Button onClick={checkHealth(url)} variant="contained" color="primary">
+        Check
+      </Button>
       {loading && <span>Loading...</span>}
       {!loading && error && <span>Error</span>}
       {!loading && !error && data && <span>{data}</span>}
-    </li>
+    </List>
   );
 };
 
