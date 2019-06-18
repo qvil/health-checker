@@ -1,6 +1,9 @@
 import React from "react";
 // import useAxios from "../hooks/useAxios";
 import ServerList from "../components/ServerList";
+import Icon from "@material-ui/core/Icon";
+import { Container } from "../components";
+import withCardLayout from "../components/withCardLayout";
 
 const lists = [
   { url: "//www.naver.com" },
@@ -10,15 +13,16 @@ const lists = [
 
 const List = () => {
   return (
-    <div>
+    <Container>
       <h1>List</h1>
       <ol>
         {lists.map(({ url }, index) => (
           <ServerList key={index} url={url} />
         ))}
       </ol>
-    </div>
+      <Icon>star</Icon>
+    </Container>
   );
 };
 
-export default List;
+export default withCardLayout(List);
