@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 
 const StyledAppBar = styled(AppBar)`
-  display: block;
+  position: sticky !important;
 `;
 
 const Header = ({ history }) => {
