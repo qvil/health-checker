@@ -2,9 +2,10 @@ import styled from "styled-components";
 import Card from "@material-ui/core/Card";
 
 const MyCard = styled(Card)`
-  margin: 16px;
   padding: 16px;
-  width: 400px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
 `;
 
 // const Card = () => {
