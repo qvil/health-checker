@@ -56,4 +56,4 @@ const Home = ({ history }) => {
   );
 };
 
-export default withCardLayout(withRouter(Home));
+export default withRouter(withCardLayout(Home));

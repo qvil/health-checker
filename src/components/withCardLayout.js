@@ -8,7 +8,7 @@ const withCardLayout = WrappedComponent => {
       return (
         <Container>
           <Card>
-            <WrappedComponent />
+            <WrappedComponent {...this.props} />
           </Card>
         </Container>
       );
