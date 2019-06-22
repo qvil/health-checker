@@ -13,10 +13,12 @@ import CachedIcon from "@material-ui/icons/Cached";
 import WifiIcon from "@material-ui/icons/Wifi";
 import teal from "@material-ui/core/colors/teal";
 import pink from "@material-ui/core/colors/pink";
+import { animation } from "../styles/mixin";
 
 const StyledWifiIcon = styled(WifiIcon)`
   color: ${({ styledcolor }) => styledcolor};
 `;
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -31,6 +33,12 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
+
+const StyledCachedIcon = styled(CachedIcon)`
+  ${animation.spinReverse};
+  animation: spinReverse ${({ loading }) => (loading ? "infinite" : 0)} 2.5s
+    linear;
+`;
 
 const ServerList = ({ url, index }) => {
   const classes = useStyles();
@@ -86,7 +94,7 @@ const ServerList = ({ url, index }) => {
             onClick={checkHealth(url)}
           >
             {/* rotate animation 넣기 */}
-            <CachedIcon />
+            <StyledCachedIcon loading />
           </IconButton>
           <IconButton
             edge="end"
