@@ -14,6 +14,7 @@ import WifiIcon from "@material-ui/icons/Wifi";
 import teal from "@material-ui/core/colors/teal";
 import pink from "@material-ui/core/colors/pink";
 import { animation } from "../styles/mixin";
+import useAxios from "@react-qooks/use-axios";
 
 const StyledWifiIcon = styled(WifiIcon)`
   color: ${({ styledcolor }) => styledcolor};
@@ -47,8 +48,13 @@ const ServerList = ({ url, index }) => {
   const [state, setState] = useState({
     loading: false,
     error: null,
-    data: null
+    data: null,
+    trigger: false
   });
+  const render = useAxios(
+    "http://ddragon.leagueoflegends.com/api/versions.json",
+    state.trigger
+  );
 
   const checkHealth = () => () => {
     // Hooks
@@ -77,7 +83,7 @@ const ServerList = ({ url, index }) => {
         role={undefined}
         dense
         button
-        // onClick={handleToggle(value)}
+        onClick={() => setState({ trigger: true })}
       >
         <ListItemIcon>
           <Checkbox
@@ -90,22 +96,28 @@ const ServerList = ({ url, index }) => {
         </ListItemIcon>
         <ListItemText id={`checkbox-list-label-${url}`} primary={url} />
         <ListItemSecondaryAction>
-          <StyledIconButton
-            edge="start"
-            aria-label="Status"
-            onClick={checkHealth(url)}
-            loading
-          >
-            <CachedIcon />
-          </StyledIconButton>
-          <IconButton
+          {render({
+            loading: () => (
+              <StyledIconButton
+                edge="start"
+                aria-label="Status"
+                onClick={checkHealth(url)}
+                loading
+              >
+                <CachedIcon />
+              </StyledIconButton>
+            ),
+            error: error => <div>{error.toString()}</div>,
+            data: data => <div>{JSON.stringify(data)}</div>
+          })}
+          {/* setTimeout 걸어서 시간 지날 때 마다 와이파이 칸 떨어지게 */}
+          {/* <IconButton
             edge="end"
             aria-label="HealthCheck"
             onClick={checkHealth(url)}
           >
-            {/* setTimeout 걸어서 시간 지날 때 마다 와이파이 칸 떨어지게 */}
             <StyledWifiIcon styledcolor={index === 1 ? teal[500] : pink[500]} />
-          </IconButton>
+          </IconButton> */}
         </ListItemSecondaryAction>
       </ListItem>
       {/* {loading && <span>Loading...</span>}
