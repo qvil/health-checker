@@ -34,7 +34,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const StyledCachedIcon = styled(CachedIcon)`
+const styledIconButtonProps = { loading: Boolean };
+
+const StyledIconButton = styled(IconButton, styledIconButtonProps)`
   ${animation.spinReverse};
   animation: spinReverse ${({ loading }) => (loading ? "infinite" : 0)} 2.5s
     linear;
@@ -88,14 +90,14 @@ const ServerList = ({ url, index }) => {
         </ListItemIcon>
         <ListItemText id={`checkbox-list-label-${url}`} primary={url} />
         <ListItemSecondaryAction>
-          <IconButton
+          <StyledIconButton
             edge="start"
             aria-label="Status"
             onClick={checkHealth(url)}
+            loading
           >
-            {/* rotate animation 넣기 */}
-            <StyledCachedIcon loading />
-          </IconButton>
+            <CachedIcon />
+          </StyledIconButton>
           <IconButton
             edge="end"
             aria-label="HealthCheck"
