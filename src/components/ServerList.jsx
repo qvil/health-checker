@@ -96,6 +96,14 @@ const ServerList = ({ url, index }) => {
         </ListItemIcon>
         <ListItemText id={`checkbox-list-label-${url}`} primary={url} />
         <ListItemSecondaryAction>
+          <StyledIconButton
+            edge="start"
+            aria-label="Status"
+            onClick={checkHealth(url)}
+          >
+            <CachedIcon />
+          </StyledIconButton>
+          {/* 이것보다 loading, error, data state관리가 더 나은듯 */}
           {render({
             loading: () => (
               <StyledIconButton
@@ -111,13 +119,13 @@ const ServerList = ({ url, index }) => {
             data: data => <div>{JSON.stringify(data)}</div>
           })}
           {/* setTimeout 걸어서 시간 지날 때 마다 와이파이 칸 떨어지게 */}
-          {/* <IconButton
+          <IconButton
             edge="end"
             aria-label="HealthCheck"
             onClick={checkHealth(url)}
           >
             <StyledWifiIcon styledcolor={index === 1 ? teal[500] : pink[500]} />
-          </IconButton> */}
+          </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
       {/* {loading && <span>Loading...</span>}

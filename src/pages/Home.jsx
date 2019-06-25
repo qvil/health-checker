@@ -21,11 +21,6 @@ const Home = ({ history }) => {
   const [input, setInput] = useState("");
 
   const handleSubmit = event => {
-    if (input.indexOf(1) !== -1) {
-      console.log("TCL: Home -> input.indexOf(1)", input.indexOf(1));
-      history.push("/add");
-      return;
-    }
     event.preventDefault();
     if (input === "") {
       return;
