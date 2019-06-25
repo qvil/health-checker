@@ -35,9 +35,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const styledIconButtonProps = { loading: Boolean };
+const StyledIconButton = styled(IconButton)`
+  ${animation.spinReverse};
+  animation: spinReverse ${({ loading }) => (loading ? "infinite" : 0)} 2.5s
+    linear;
+`;
 
-const StyledIconButton = styled(IconButton, styledIconButtonProps)`
+const StyledCachedIcon = styled(CachedIcon)`
   ${animation.spinReverse};
   animation: spinReverse ${({ loading }) => (loading ? "infinite" : 0)} 2.5s
     linear;
@@ -101,7 +105,7 @@ const ServerList = ({ url, index }) => {
             aria-label="Status"
             onClick={checkHealth(url)}
           >
-            <CachedIcon />
+            <StyledCachedIcon loading />
           </StyledIconButton>
           {/* 이것보다 loading, error, data state관리가 더 나은듯 */}
           {render({
@@ -110,7 +114,6 @@ const ServerList = ({ url, index }) => {
                 edge="start"
                 aria-label="Status"
                 onClick={checkHealth(url)}
-                loading
               >
                 <CachedIcon />
               </StyledIconButton>
