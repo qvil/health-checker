@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import ServerList from "../components/ServerList";
 import { Container } from "../components";
 import withCardLayout from "../components/withCardLayout";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Store from "../store";
+import { setServerList } from "../reducer";
 
 const StyledTextField = styled(TextField)`
   flex: 1;
@@ -29,11 +31,16 @@ const List = () => {
     { url: "https://www.op.gg" },
     { url: "https://www.daum.net" }
   ]);
+  const {
+    store: { serverList },
+    dispatch
+  } = useContext(Store);
 
   const handleSubmit = e => {
     e.preventDefault();
     let newList = [...list, { url: input }];
-    setList(newList);
+    // setList(newList);
+    // dispatch(setServerList(newList));
     setInput("");
   };
 
@@ -52,7 +59,7 @@ const List = () => {
         </StyledButton>
       </Form>
 
-      {list.map(({ url }, index) => (
+      {serverList.map(({ url }, index) => (
         <ServerList key={index} index={index} url={url} />
       ))}
     </Container>

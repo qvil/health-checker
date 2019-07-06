@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import useAxios from "@react-daily-hooks/use-axios";
 import Button from "@material-ui/core/Button";
@@ -9,6 +9,8 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import withCardLayout from "../components/withCardLayout";
 import ModalCircularProgress from "../components/ModalCircularProgress";
+import Store from "../store";
+import { setServerList } from "../reducer";
 
 const Form = styled.form`
   display: flex;
@@ -28,6 +30,8 @@ const Home = ({ history }) => {
     },
     fetchTrigger
   );
+  const { store, dispatch } = useContext(Store);
+  console.log("TCL: Home -> store, dispatch", store, dispatch);
   // console.log("TCL: Home -> loading, error, data", loading, error, data);
 
   const handleSubmit = event => {
@@ -37,7 +41,8 @@ const Home = ({ history }) => {
     }
     setFetchTrigger(true);
     if (!loading && !error && data) {
-      // console.log("TCL: data", data);
+      console.log("TCL: data", data);
+      dispatch(setServerList(data.data));
       alert("환영합니다!");
       history.push("/list");
     }
