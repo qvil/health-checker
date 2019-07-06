@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
+import useAxios from "@react-daily-hooks/use-axios";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
@@ -7,6 +8,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import withCardLayout from "../components/withCardLayout";
+import ModalCircularProgress from "../components/ModalCircularProgress";
 
 const Form = styled.form`
   display: flex;
@@ -19,39 +21,54 @@ const StyledCardActions = styled(CardActions)`
 
 const Home = ({ history }) => {
   const [input, setInput] = useState("");
+  const [fetchTrigger, setFetchTrigger] = useState(false);
+  const { loading, error, data } = useAxios(
+    {
+      url: `${process.env.REACT_APP_API_URL}/${input}`
+    },
+    fetchTrigger
+  );
+  // console.log("TCL: Home -> loading, error, data", loading, error, data);
 
   const handleSubmit = event => {
     event.preventDefault();
     if (input === "") {
       return;
     }
-    alert(`Hi: ${input}`);
-    history.push("/list");
+    setFetchTrigger(true);
+    if (!loading && !error && data) {
+      // console.log("TCL: data", data);
+      alert("환영합니다!");
+      history.push("/list");
+    }
   };
 
   return (
     <>
-      <CardHeader title="Home" />
-      <CardContent>
-        <Form onSubmit={handleSubmit}>
-          <TextField
-            type="text"
-            placeholder="이메일을 입력하세요."
-            value={input}
-            onChange={e => setInput(e.target.value)}
-          />
-        </Form>
-      </CardContent>
-      <StyledCardActions>
-        <Button
-          type="submit"
-          onClick={handleSubmit}
-          variant="contained"
-          color="primary"
-        >
-          확인
-        </Button>
-      </StyledCardActions>
+      {loading && <ModalCircularProgress />}
+      <>
+        <CardHeader title="Home" />
+        <CardContent>
+          <Form onSubmit={handleSubmit}>
+            <TextField
+              type="text"
+              placeholder="이메일을 입력하세요."
+              value={input}
+              onChange={e => setInput(e.target.value)}
+            />
+          </Form>
+        </CardContent>
+        <StyledCardActions>
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            variant="contained"
+            color="primary"
+          >
+            확인
+          </Button>
+        </StyledCardActions>
+      </>
     </>
   );
 };
