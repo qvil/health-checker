@@ -26,11 +26,6 @@ const Form = styled.form`
 
 const List = () => {
   const [input, setInput] = useState("");
-  const [list, setList] = useState([
-    { url: "https://www.naver.com" },
-    { url: "https://www.op.gg" },
-    { url: "https://www.daum.net" }
-  ]);
   const {
     store: { serverList },
     dispatch
@@ -38,9 +33,7 @@ const List = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    let newList = [...list, { url: input }];
-    // setList(newList);
-    // dispatch(setServerList(newList));
+    dispatch(setServerList(input));
     setInput("");
   };
 
@@ -54,13 +47,17 @@ const List = () => {
           value={input}
           onChange={e => setInput(e.target.value)}
         />
-        <StyledButton variant="contained" color="primary">
+        <StyledButton
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+        >
           확인
         </StyledButton>
       </Form>
 
-      {serverList.map(({ url }, index) => (
-        <ServerList key={index} index={index} url={url} />
+      {serverList.map(({ url, live }, index) => (
+        <ServerList key={index} index={index} url={url} live={live} />
       ))}
     </Container>
   );

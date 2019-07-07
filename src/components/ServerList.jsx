@@ -47,7 +47,7 @@ const StyledCachedIcon = styled(CachedIcon)`
     linear;
 `;
 
-const ServerList = ({ url, index }) => {
+const ServerList = ({ url, index, live }) => {
   const classes = useStyles();
   const [fetchTrigger, setFetchTrigger] = useState(false);
   const { loading, error, data } = useAxios(
@@ -55,7 +55,6 @@ const ServerList = ({ url, index }) => {
     fetchTrigger
   );
 
-  console.log("TCL: ServerList -> data", data);
   const checkHealth = () => () => {
     // Hooks
     // fetch();
@@ -112,14 +111,14 @@ const ServerList = ({ url, index }) => {
             </StyledIconButton>
           )}
           {error && <div>{error.toString()}</div>}
-          {!loading && !error && data && <div>{JSON.stringify(data)}</div>})}
+          {!loading && !error && data && <div>{JSON.stringify(data)}</div>}
           {/* setTimeout 걸어서 시간 지날 때 마다 와이파이 칸 떨어지게 */}
           <IconButton
             edge="end"
             aria-label="HealthCheck"
             onClick={checkHealth(url)}
           >
-            <StyledWifiIcon styledcolor={index === 1 ? teal[500] : pink[500]} />
+            <StyledWifiIcon styledcolor={live ? teal[500] : pink[500]} />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>

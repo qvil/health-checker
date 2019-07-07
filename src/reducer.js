@@ -7,9 +7,9 @@ export const setServerList = serverList => ({
 
 export const initialState = {
   serverList: [
-    { url: "https://www.naver.com" },
-    { url: "https://www.op.gg" },
-    { url: "https://www.daum.net" }
+    { url: "https://www.naver.com", live: false },
+    { url: "https://www.op.gg", live: false },
+    { url: "https://www.daum.net", live: false }
   ]
 };
 
@@ -17,7 +17,10 @@ export default (state = initialState, action) => {
   const { type, serverList } = action;
   switch (type) {
     case SET_SERVER_LIST:
-      return { ...state, serverList };
+      return {
+        ...state,
+        serverList: [...state.serverList, { url: serverList, live: false }]
+      };
     default:
       return state;
   }
