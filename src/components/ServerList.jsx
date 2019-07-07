@@ -41,12 +41,6 @@ const StyledIconButton = styled(IconButton)`
     linear;
 `;
 
-const StyledCachedIcon = styled(CachedIcon)`
-  ${animation.spinReverse};
-  animation: spinReverse ${({ loading }) => (loading ? "infinite" : 0)} 2.5s
-    linear;
-`;
-
 const ServerList = ({ url, index, live }) => {
   const classes = useStyles();
   const [fetchTrigger, setFetchTrigger] = useState(false);
@@ -98,9 +92,8 @@ const ServerList = ({ url, index, live }) => {
             aria-label="Status"
             onClick={checkHealth(url)}
           >
-            <StyledCachedIcon loading />
+            <CachedIcon />
           </StyledIconButton>
-          {/* 이것보다 loading, error, data state관리가 더 나은듯 */}
           {loading && (
             <StyledIconButton
               edge="start"

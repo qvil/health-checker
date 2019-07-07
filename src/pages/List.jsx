@@ -6,7 +6,7 @@ import withCardLayout from "../components/withCardLayout";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Store from "../store";
-import { setServerList } from "../reducer";
+import { addServerList } from "../reducer";
 
 const StyledTextField = styled(TextField)`
   flex: 1;
@@ -33,7 +33,7 @@ const List = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(setServerList(input));
+    dispatch(addServerList(input));
     setInput("");
   };
 

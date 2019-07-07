@@ -13,6 +13,7 @@ import Store from "./store";
 function App() {
   const [store, dispatch] = useReducer(reducer, initialState);
   console.log("TCL: App -> store", store);
+
   return (
     <Store.Provider value={{ store, dispatch }}>
       <ThemeProvider theme={theme}>

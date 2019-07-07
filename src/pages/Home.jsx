@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import useAxios from "@react-daily-hooks/use-axios";
 import Button from "@material-ui/core/Button";
@@ -30,9 +30,7 @@ const Home = ({ history }) => {
     },
     fetchTrigger
   );
-  const { store, dispatch } = useContext(Store);
-  console.log("TCL: Home -> store, dispatch", store, dispatch);
-  // console.log("TCL: Home -> loading, error, data", loading, error, data);
+  const { dispatch } = useContext(Store);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -40,13 +38,16 @@ const Home = ({ history }) => {
       return;
     }
     setFetchTrigger(true);
+  };
+
+  useEffect(() => {
     if (!loading && !error && data) {
       console.log("TCL: data", data);
       dispatch(setServerList(data.data));
       alert("환영합니다!");
       history.push("/list");
     }
-  };
+  });
 
   return (
     <>
