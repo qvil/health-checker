@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import ServerList from "../components/ServerList";
 import { Container } from "../components";
@@ -30,6 +30,7 @@ const List = () => {
     store: { serverList },
     dispatch
   } = useContext(Store);
+  const inputEl = useRef(null);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -37,11 +38,16 @@ const List = () => {
     setInput("");
   };
 
+  useEffect(() => {
+    inputEl.current.focus();
+  }, []);
+
   return (
     <Container>
       <h2>Server List</h2>
       <Form onSubmit={handleSubmit}>
         <StyledTextField
+          inputRef={inputEl}
           placeholder="https://www.op.gg"
           label="서버를 추가하세요."
           value={input}

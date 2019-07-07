@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { withRouter } from "react-router-dom";
 import useAxios from "@react-daily-hooks/use-axios";
 import Button from "@material-ui/core/Button";
@@ -31,6 +31,7 @@ const Home = ({ history }) => {
     fetchTrigger
   );
   const { dispatch } = useContext(Store);
+  const inputEl = useRef(null);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -41,6 +42,8 @@ const Home = ({ history }) => {
   };
 
   useEffect(() => {
+    inputEl.current.focus();
+    console.log("TCL: Home -> inputEl.current", inputEl.current);
     if (!loading && !error && data) {
       console.log("TCL: data", data);
       dispatch(setServerList(data.data));
@@ -57,6 +60,7 @@ const Home = ({ history }) => {
         <CardContent>
           <Form onSubmit={handleSubmit}>
             <TextField
+              inputRef={inputEl}
               type="text"
               placeholder="이메일을 입력하세요."
               value={input}
