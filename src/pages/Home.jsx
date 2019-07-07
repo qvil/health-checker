@@ -16,7 +16,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
 `;
-const StyledCardActions = styled(CardActions)`
+export const StyledCardActions = styled(CardActions)`
   display: flex;
   justify-content: flex-end;
 `;
@@ -43,7 +43,6 @@ const Home = ({ history }) => {
 
   useEffect(() => {
     inputEl.current.focus();
-    console.log("TCL: Home -> inputEl.current", inputEl.current);
     if (!loading && !error && data) {
       console.log("TCL: data", data);
       dispatch(setServerList(data.data));

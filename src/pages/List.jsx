@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import ServerList from "../components/ServerList";
-import { Container } from "../components";
 import withCardLayout from "../components/withCardLayout";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Store from "../store";
 import { addServerList } from "../reducer";
+import { CardContent, CardHeader } from "@material-ui/core";
+import { StyledCardActions } from "./Home";
 
 const StyledTextField = styled(TextField)`
   flex: 1;
@@ -43,16 +44,20 @@ const List = () => {
   }, []);
 
   return (
-    <Container>
-      <h2>Server List</h2>
-      <Form onSubmit={handleSubmit}>
-        <StyledTextField
-          inputRef={inputEl}
-          placeholder="https://www.op.gg"
-          label="서버를 추가하세요."
-          value={input}
-          onChange={e => setInput(e.target.value)}
-        />
+    <>
+      <CardHeader title="Server List" />
+      <CardContent>
+        <Form onSubmit={handleSubmit}>
+          <StyledTextField
+            inputRef={inputEl}
+            placeholder="https://www.op.gg"
+            label="서버를 추가하세요."
+            value={input}
+            onChange={e => setInput(e.target.value)}
+          />
+        </Form>
+      </CardContent>
+      <StyledCardActions>
         <StyledButton
           variant="contained"
           color="primary"
@@ -60,12 +65,11 @@ const List = () => {
         >
           확인
         </StyledButton>
-      </Form>
-
+      </StyledCardActions>
       {serverList.map(({ url, live }, index) => (
         <ServerList key={index} index={index} url={url} live={live} />
       ))}
-    </Container>
+    </>
   );
 };
 
