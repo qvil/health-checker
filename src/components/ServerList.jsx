@@ -15,6 +15,7 @@ import teal from "@material-ui/core/colors/teal";
 import pink from "@material-ui/core/colors/pink";
 import grey from "@material-ui/core/colors/grey";
 import { animation } from "../styles/mixin";
+// import DeleteIcon from "@material-ui/icons/Delete";
 // import useAxios from "@react-qooks/use-axios";
 // import useAxios from "@react-daily-hooks/use-axios";
 
@@ -39,8 +40,8 @@ const useStyles = makeStyles(theme => ({
 
 const StyledIconButton = styled(IconButton)`
   ${animation.spinReverse};
-  animation: spinReverse ${({ loading }) => (loading ? "infinite" : 0)} 2.5s
-    linear;
+  animation: spinReverse
+    ${({ loading }) => (loading === "true" ? "infinite" : 0)} 2.5s linear;
 `;
 
 const ServerList = ({ value: { url, seq } }) => {
@@ -58,10 +59,10 @@ const ServerList = ({ value: { url, seq } }) => {
   });
 
   const checkHealth = () => {
+    setState({ ...state, loading: true });
     axios
       .post(`${process.env.REACT_APP_API_URL}/${seq}`)
       .then(res => {
-        setState({ ...state, loading: true });
         if (res.status === 200) {
           // if (res.data.result.indexOf("Success") !== -1) {
           // const data = res.data;
@@ -74,14 +75,19 @@ const ServerList = ({ value: { url, seq } }) => {
         setState({ ...state, error });
       });
   };
-  const { loading, error, data, live } = state;
+
+  // const deleteServer = () => {
+
+  // }
+
+  const { loading, error, live } = state;
 
   return (
     <List className={classes.root}>
       <ListItem
         role={undefined}
         dense
-        button
+        // button
         // onClick={() => setFetchTrigger(true)}
       >
         <ListItemIcon>
@@ -96,29 +102,23 @@ const ServerList = ({ value: { url, seq } }) => {
         <ListItemText id={`checkbox-list-label-${url}`} primary={url} />
         <ListItemSecondaryAction>
           <StyledIconButton
-            edge="start"
+            loading={loading ? "true" : "false"}
             aria-label="Status"
             onClick={checkHealth}
           >
             <CachedIcon />
           </StyledIconButton>
-          {loading && (
-            <StyledIconButton
-              edge="start"
-              aria-label="Status"
-              onClick={checkHealth}
-            >
-              <CachedIcon />
-            </StyledIconButton>
-          )}
           {/* {error && <div>{error.toString()}</div>} */}
-          {!loading && !error && data && <div>{JSON.stringify(data)}</div>}
+          {/* {!loading && !error && data && <div>{JSON.stringify(data)}</div>} */}
           {/* setTimeout 걸어서 시간 지날 때 마다 와이파이 칸 떨어지게 */}
-          <IconButton edge="end" aria-label="HealthCheck" onClick={checkHealth}>
+          <IconButton aria-label="HealthCheck" onClick={checkHealth}>
             <StyledWifiIcon
               styledcolor={live ? teal[500] : error ? pink[500] : grey[500]}
             />
           </IconButton>
+          {/* <IconButton ria-label="Delete" onClick={deleteServer}>
+            <DeleteIcon />
+          </IconButton> */}
         </ListItemSecondaryAction>
       </ListItem>
     </List>
