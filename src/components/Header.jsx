@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
@@ -9,7 +10,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import MenuIcon from "@material-ui/icons/Menu";
 import LockIcon from "@material-ui/icons/Lock";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
-import { setLoginStatus } from "../reducer";
+import { setLoginStatus, setServerList } from "../reducer";
 
 const StyledAppBar = styled(AppBar)`
   position: sticky !important;
@@ -32,8 +33,9 @@ const Header = ({ history, store: { isLogged }, dispatch }) => {
     history.push("/");
   };
   const logout = () => {
-    console.log(2);
     dispatch(setLoginStatus(false));
+    dispatch(setServerList([]));
+    history.push("/");
   };
 
   return (
@@ -46,14 +48,10 @@ const Header = ({ history, store: { isLogged }, dispatch }) => {
           <MenuIcon />
         </IconButton>
         <IconButton
-          className={[classes.icon, classes.login]}
-          onClick={handleClick("/list")}
+          className={classNames(classes.icon, classes.login)}
+          onClick={isLogged ? logout : login}
         >
-          {isLogged ? (
-            <LockIcon onClick={logout} />
-          ) : (
-            <LockOpenIcon onClick={login} />
-          )}
+          {isLogged ? <LockIcon /> : <LockOpenIcon />}
         </IconButton>
       </Toolbar>
     </StyledAppBar>

@@ -42,7 +42,13 @@ function App() {
             />
             <Route
               path="/list"
-              render={() => <List loading={loading} error={error} />}
+              render={() =>
+                !store.isLogged ? (
+                  <Redirect to="/" />
+                ) : (
+                  <List loading={loading} error={error} />
+                )
+              }
             />
           </Router>
         </>

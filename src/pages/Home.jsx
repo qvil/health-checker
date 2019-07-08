@@ -10,7 +10,7 @@ import CardActions from "@material-ui/core/CardActions";
 import withCardLayout from "../components/withCardLayout";
 import ModalCircularProgress from "../components/ModalCircularProgress";
 import Store from "../store";
-import { setServerList } from "../reducer";
+import { setServerList, setLoginStatus } from "../reducer";
 
 const Form = styled.form`
   display: flex;
@@ -45,7 +45,7 @@ const Home = ({ history }) => {
   useEffect(() => {
     inputEl.current.focus();
     if (!loading && !error && data) {
-      console.log("TCL: data", data);
+      dispatch(setLoginStatus(true));
       dispatch(setServerList(data.data));
       alert("환영합니다!");
       history.push("/list");
