@@ -1,9 +1,10 @@
 export const ADD_SERVER_LIST = "ADD_SERVER_LIST";
 export const SET_SERVER_LIST = "SET_SERVER_LIST";
 
-export const addServerList = serverList => ({
+export const addServerList = (serverList, seq) => ({
   type: ADD_SERVER_LIST,
-  serverList
+  serverList,
+  seq
 });
 export const setServerList = serverList => ({
   type: SET_SERVER_LIST,
@@ -20,12 +21,12 @@ export const initialState = {
 };
 
 export default (state = initialState, action) => {
-  const { type, serverList } = action;
+  const { type, serverList, seq } = action;
   switch (type) {
     case ADD_SERVER_LIST:
       return {
         ...state,
-        serverList: [...state.serverList, { url: serverList, live: false }]
+        serverList: [...state.serverList, { url: serverList, seq }]
       };
     case SET_SERVER_LIST:
       return {

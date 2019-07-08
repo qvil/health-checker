@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import ServerList from "../components/ServerList";
 import withCardLayout from "../components/withCardLayout";
 import TextField from "@material-ui/core/TextField";
@@ -35,7 +36,18 @@ const List = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(addServerList(input));
+    axios
+      .post(`${process.env.REACT_APP_API_URL}`, {
+        email: localStorage.email,
+        url: input
+      })
+      .then(res => {
+        console.log("TCL: List -> res", res);
+        // dispatch(addServerList(input, res.data.seq));
+      })
+      .catch(error => {
+        console.log(error);
+      });
     setInput("");
   };
 
@@ -66,8 +78,8 @@ const List = () => {
           확인
         </StyledButton>
       </StyledCardActions>
-      {serverList.map(({ url, live }, index) => (
-        <ServerList key={index} index={index} url={url} live={live} />
+      {serverList.map((value, index) => (
+        <ServerList key={index} value={value} />
       ))}
     </>
   );

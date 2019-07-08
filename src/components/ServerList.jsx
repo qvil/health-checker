@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -14,7 +15,7 @@ import teal from "@material-ui/core/colors/teal";
 import pink from "@material-ui/core/colors/pink";
 import { animation } from "../styles/mixin";
 // import useAxios from "@react-qooks/use-axios";
-import useAxios from "@react-daily-hooks/use-axios";
+// import useAxios from "@react-daily-hooks/use-axios";
 
 const StyledWifiIcon = styled(WifiIcon)`
   color: ${({ styledcolor }) => styledcolor};
@@ -41,40 +42,47 @@ const StyledIconButton = styled(IconButton)`
     linear;
 `;
 
-const ServerList = ({ url, index, live }) => {
+const ServerList = ({ value: { url, seq }, index }) => {
   const classes = useStyles();
-  const [fetchTrigger, setFetchTrigger] = useState(false);
-  const { loading, error, data } = useAxios(
-    { url: `${process.env.REACT_APP_API_URL}/email@qvil.dev` },
-    fetchTrigger
-  );
+  // const [fetchTrigger, setFetchTrigger] = useState(false);
+  // const { loading, error, data } = useAxios(
+  //   { url: `${process.env.REACT_APP_API_URL}/email@qvil.dev` },
+  //   fetchTrigger
+  // );
+  const [state, setState] = useState({
+    loading: false,
+    error: null,
+    data: null,
+    live: false
+  });
+  console.log("TCL: ServerList -> state", state);
 
-  const checkHealth = () => () => {
-    // Hooks
-    // fetch();
-    // API
-    // axios(url)
-    // axios("http://ddragon.leagueoflegends.com/api/versions.json")
-    //   .then(res => {
-    //     console.log(res);
-    //     if (res.status === 200) {
-    //       const data = res.data;
-    //       setState({ ...state, data });
-    //     } else {
-    //       throw new Error();
-    //     }
-    //   })
-    //   .catch(error => setState({ ...state, error }));
+  const checkHealth = () => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/${seq}`)
+      .then(res => {
+        setState({ ...state, loading: true });
+        console.log(res);
+        if (res.status === 200) {
+          // const data = res.data;
+          setState({ ...state, live: true });
+        } else {
+          setState({ ...state, loading: false, error: new Error() });
+        }
+      })
+      .catch(error => {
+        setState({ ...state, error });
+      });
   };
-  // const { loading, error, data } = state;
+  const { loading, error, data, live } = state;
+
   return (
     <List className={classes.root}>
       <ListItem
-        key={index}
         role={undefined}
         dense
         button
-        onClick={() => setFetchTrigger(true)}
+        // onClick={() => setFetchTrigger(true)}
       >
         <ListItemIcon>
           <Checkbox
@@ -90,7 +98,7 @@ const ServerList = ({ url, index, live }) => {
           <StyledIconButton
             edge="start"
             aria-label="Status"
-            onClick={checkHealth(url)}
+            onClick={checkHealth}
           >
             <CachedIcon />
           </StyledIconButton>
@@ -98,7 +106,7 @@ const ServerList = ({ url, index, live }) => {
             <StyledIconButton
               edge="start"
               aria-label="Status"
-              onClick={checkHealth(url)}
+              onClick={checkHealth}
             >
               <CachedIcon />
             </StyledIconButton>
@@ -106,18 +114,11 @@ const ServerList = ({ url, index, live }) => {
           {error && <div>{error.toString()}</div>}
           {!loading && !error && data && <div>{JSON.stringify(data)}</div>}
           {/* setTimeout 걸어서 시간 지날 때 마다 와이파이 칸 떨어지게 */}
-          <IconButton
-            edge="end"
-            aria-label="HealthCheck"
-            onClick={checkHealth(url)}
-          >
+          <IconButton edge="end" aria-label="HealthCheck" onClick={checkHealth}>
             <StyledWifiIcon styledcolor={live ? teal[500] : pink[500]} />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
-      {/* {loading && <span>Loading...</span>}
-      {!loading && error && <span>Error</span>}
-      {!loading && !error && data && <span>{data}</span>} */}
     </List>
   );
 };

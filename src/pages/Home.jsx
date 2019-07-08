@@ -38,6 +38,7 @@ const Home = ({ history }) => {
     if (input === "") {
       return;
     }
+    localStorage.email = input;
     setFetchTrigger(true);
   };
 
