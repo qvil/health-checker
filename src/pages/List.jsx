@@ -43,7 +43,7 @@ const List = () => {
       })
       .then(res => {
         console.log("TCL: List -> res", res);
-        // dispatch(addServerList(input, res.data.seq));
+        dispatch(addServerList(input, res.data.seq));
       })
       .catch(error => {
         console.log(error);

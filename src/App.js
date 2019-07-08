@@ -39,7 +39,10 @@ function App() {
               path="/"
               render={() => (isLogged ? <Redirect to="/list" /> : <Index />)}
             />
-            <Route path="/list" component={List} />
+            <Route
+              path="/list"
+              render={() => <List loading={loading} error={error} />}
+            />
           </Router>
         </>
       </ThemeProvider>

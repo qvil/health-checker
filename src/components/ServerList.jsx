@@ -13,12 +13,13 @@ import CachedIcon from "@material-ui/icons/Cached";
 import WifiIcon from "@material-ui/icons/Wifi";
 import teal from "@material-ui/core/colors/teal";
 import pink from "@material-ui/core/colors/pink";
+import grey from "@material-ui/core/colors/grey";
 import { animation } from "../styles/mixin";
 // import useAxios from "@react-qooks/use-axios";
 // import useAxios from "@react-daily-hooks/use-axios";
 
 const StyledWifiIcon = styled(WifiIcon)`
-  color: ${({ styledcolor }) => styledcolor};
+  color: ${({ styledcolor = grey[500] }) => styledcolor};
 `;
 
 const useStyles = makeStyles(theme => ({
@@ -42,7 +43,7 @@ const StyledIconButton = styled(IconButton)`
     linear;
 `;
 
-const ServerList = ({ value: { url, seq }, index }) => {
+const ServerList = ({ value: { url, seq } }) => {
   const classes = useStyles();
   // const [fetchTrigger, setFetchTrigger] = useState(false);
   // const { loading, error, data } = useAxios(
@@ -55,15 +56,14 @@ const ServerList = ({ value: { url, seq }, index }) => {
     data: null,
     live: false
   });
-  console.log("TCL: ServerList -> state", state);
 
   const checkHealth = () => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/${seq}`)
       .then(res => {
         setState({ ...state, loading: true });
-        console.log(res);
         if (res.status === 200) {
+          // if (res.data.result.indexOf("Success") !== -1) {
           // const data = res.data;
           setState({ ...state, live: true });
         } else {
@@ -111,11 +111,13 @@ const ServerList = ({ value: { url, seq }, index }) => {
               <CachedIcon />
             </StyledIconButton>
           )}
-          {error && <div>{error.toString()}</div>}
+          {/* {error && <div>{error.toString()}</div>} */}
           {!loading && !error && data && <div>{JSON.stringify(data)}</div>}
           {/* setTimeout 걸어서 시간 지날 때 마다 와이파이 칸 떨어지게 */}
           <IconButton edge="end" aria-label="HealthCheck" onClick={checkHealth}>
-            <StyledWifiIcon styledcolor={live ? teal[500] : pink[500]} />
+            <StyledWifiIcon
+              styledcolor={live ? teal[500] : error ? pink[500] : grey[500]}
+            />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
