@@ -42,7 +42,6 @@ const List = () => {
         url: input
       })
       .then(res => {
-        console.log("TCL: List -> res", res);
         dispatch(addServerList(input, res.data.seq));
       })
       .catch(error => {
@@ -62,7 +61,7 @@ const List = () => {
         <Form onSubmit={handleSubmit}>
           <StyledTextField
             inputRef={inputEl}
-            placeholder="https://www.op.gg"
+            placeholder="https://www.google.com"
             label="서버를 추가하세요."
             value={input}
             onChange={e => setInput(e.target.value)}
