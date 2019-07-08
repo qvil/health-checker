@@ -33,6 +33,7 @@ const Header = ({ history, store: { isLogged }, dispatch }) => {
     history.push("/");
   };
   const logout = () => {
+    localStorage.removeItem("email");
     dispatch(setLoginStatus(false));
     dispatch(setServerList([]));
     history.push("/");

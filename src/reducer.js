@@ -27,7 +27,7 @@ export const initialState = {
 };
 
 export default (state = initialState, action) => {
-  const { type, serverList, seq } = action;
+  const { type, serverList, seq, isLogged } = action;
   switch (type) {
     case ADD_SERVER_LIST:
       return {
@@ -42,7 +42,7 @@ export default (state = initialState, action) => {
     case SET_LOGIN_STATUS:
       return {
         ...state,
-        serverList
+        isLogged
       };
     default:
       return state;
