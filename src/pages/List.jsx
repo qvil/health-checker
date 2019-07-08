@@ -53,7 +53,7 @@ const List = () => {
   useEffect(() => {
     inputEl.current.focus();
   }, []);
-
+  console.log(Array.from(serverList));
   return (
     <>
       <CardHeader title="Server List" />
@@ -77,7 +77,7 @@ const List = () => {
           확인
         </StyledButton>
       </StyledCardActions>
-      {Array.from(serverList).map((value, index) => (
+      {serverList.map((value, index) => (
         <ServerList key={index} value={value} />
       ))}
     </>
