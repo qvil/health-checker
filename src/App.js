@@ -12,7 +12,6 @@ import Store from "./store";
 import useAxios from "@react-daily-hooks/use-axios";
 
 function App() {
-  const isLogged = localStorage.email;
   const { loading, error, data } = useAxios(
     {
       url: `${process.env.REACT_APP_API_URL}/${localStorage.email}`
@@ -33,11 +32,13 @@ function App() {
         <>
           <GlobalStyle />
           <Router>
-            <Header />
+            <Header store={store} dispatch={dispatch} />
             <Route
               exact
               path="/"
-              render={() => (isLogged ? <Redirect to="/list" /> : <Index />)}
+              render={() =>
+                store.isLogged ? <Redirect to="/list" /> : <Index />
+              }
             />
             <Route
               path="/list"
