@@ -77,10 +77,9 @@ const List = () => {
           확인
         </StyledButton>
       </StyledCardActions>
-      {serverList &&
-        serverList.map((value, index) => (
-          <ServerList key={index} value={value} />
-        ))}
+      {Array.from(serverList).map((value, index) => (
+        <ServerList key={index} value={value} />
+      ))}
     </>
   );
 };
